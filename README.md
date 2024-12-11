@@ -75,14 +75,14 @@ java -jar build/libs/clutch-0.0.1-SNAPSHOT.jar
 - **Authentication**
 Login: Redirects to the configured identity provider for authentication.
 Token Validation: Validates issued JWT tokens for secured API access.
-- **APIs**
-Public Endpoints:
-- `/api/public` → Accessible by everyone.
+### **APIs**
+- *Public Endpoints*:
+- - `/api/public` → Accessible by everyone.
 - Role-Based Endpoints:
-`/api/admin` → Requires ADMIN role.
-`/api/dev` → Requires DEV role.
-`/api/audit` → Requires AUDIT role.
-`/api/operations` → Requires OPERATIONS role.
+- -`/api/admin` → Requires `ADMIN` role.
+- - `/api/dev` → Requires `DEV` role.
+- - `/api/audit` → Requires `AUDIT` role.
+- - `/api/operations` → Requires `OPERATIONS` role.
 
 ## **Observability**
 Metrics exposed at `/actuator/prometheus`.
