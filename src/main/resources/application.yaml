@@ -1,0 +1,22 @@
+spring:
+  application.name: clutch
+identity:
+  provider: keycloak
+  saml:
+    metadata-url: "http://saml-idp.com/metadata"
+  keycloak:
+    issuer-uri: "http://localhost:8080/realms/example-realm"
+    client-id: "clutch-client"
+    client-secret: "keycloak-secret"
+  azure:
+    issuer-uri: "https://login.microsoftonline.com/tenant-id/v2.0"
+    client-id: "azure-client-id"
+    client-secret: "azure-secret"
+  aws:
+    issuer-uri: "https://cognito-idp.aws-region.amazonaws.com/aws-pool-id"
+    client-id: "aws-client-id"
+    client-secret: "aws-secret"
+  okta:
+    issuer-uri: "https://dev-xxxxxx.okta.com/oauth2/default"
+    client-id: "okta-client-id"
+    client-secret: "okta-secret"
