@@ -1,5 +1,10 @@
 spring:
   application.name: clutch
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
 identity:
   provider: keycloak
   saml:

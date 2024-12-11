@@ -15,6 +15,9 @@ java {
 
 repositories {
 	mavenCentral()
+	maven {
+		url 'https://repo.jenkins-ci.org/public/'
+	}
 }
 
 dependencies {
@@ -23,7 +26,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.security:spring-security-saml2-service-provider:6.4.1'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.opensaml:opensaml-saml-impl:4.3.0'
 	runtimeOnly 'org.postgresql:postgresql'
 	implementation 'io.micrometer:micrometer-registry-prometheus'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
