@@ -77,20 +77,20 @@ Login: Redirects to the configured identity provider for authentication.
 Token Validation: Validates issued JWT tokens for secured API access.
 - **APIs**
 Public Endpoints:
-/api/public → Accessible by everyone.
-Role-Based Endpoints:
-/api/admin → Requires ADMIN role.
-/api/dev → Requires DEV role.
-/api/audit → Requires AUDIT role.
-/api/operations → Requires OPERATIONS role.
+- `/api/public` → Accessible by everyone.
+- Role-Based Endpoints:
+`/api/admin` → Requires ADMIN role.
+`/api/dev` → Requires DEV role.
+`/api/audit` → Requires AUDIT role.
+`/api/operations` → Requires OPERATIONS role.
 
 ## **Observability**
-Metrics exposed at /actuator/prometheus.
-Monitor application performance and authentication flows using Prometheus and Grafana.
-Metrics Collected:
-Login Events: Success and failure rates by identity provider.
-API Hits: Requests per endpoint, categorized by roles.
-Latency: Average response time for secured endpoints.
+Metrics exposed at `/actuator/prometheus`.
+- **Monitor** application performance and authentication flows using Prometheus and Grafana.
+- **Metrics Collected**:
+- **Login Events**: Success and failure rates by identity provider.
+- **API Hits**: Requests per endpoint, categorized by roles.
+- **Latency**: Average response time for secured endpoints.
 
 ## **Testing**
 ### **1. Running Keycloak for Testing**
