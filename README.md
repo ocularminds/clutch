@@ -1,4 +1,6 @@
-# **Clutch: Multi-Identity Service for Enterprise Security and Observability**
+# **Clutch**
+Security with SAML, Keycloak, Azure, AWS and Okta IAM
+Multi-Identity Service for Enterprise Security and Observability
 
 **Clutch** is a Spring Boot-based enterprise-grade application that integrates multiple identity providers (e.g., SAML, Keycloak, Azure IAM, AWS IAM, Okta) to provide robust authentication, role-based access control (RBAC), and observability. It is designed for scalability, performance, and security.
 
