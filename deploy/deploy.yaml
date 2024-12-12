@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clutch
+  labels:
+    app: clutch
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: clutch
+  template:
+    metadata:
+      labels:
+        app: clutch
+    spec:
+      containers:
+        - name: clutch
+          image: your-acr-name.azurecr.io/clutch:1.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: production
+            - name: IDENTITY_PROVIDER
+              value: keycloak # Use keycloak, saml, azure, aws, or okta
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: clutch-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: clutch
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080

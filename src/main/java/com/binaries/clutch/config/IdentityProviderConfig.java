@@ -17,18 +17,11 @@ import org.springframework.security.web.SecurityFilterChain;
 public class IdentityProviderConfig {
 
     private final Environment env;
+    private final RelyingPartyRegistrationRepository relyingPartyRegistrationRepository;
 
     public IdentityProviderConfig(Environment env) {
         this.env = env;
-    }
-
-    @Bean
-    public RelyingPartyRegistrationRepository relyingPartyRegistrationRepository(Environment env) {
-        RelyingPartyRegistration registration = RelyingPartyRegistration.withRegistrationId("saml")
-                .assertingPartyDetails(party -> party.entityId(env.getProperty("identity.saml.metadata-url"))
-                        .singleSignOnServiceLocation(env.getProperty("identity.saml.sso-url")))
-                .build();
-        return new InMemoryRelyingPartyRegistrationRepository(registration);
+        this.relyingPartyRegistrationRepository = createRelyingPartyRegistrationRepository();
     }
 
     @Bean
@@ -54,21 +47,15 @@ public class IdentityProviderConfig {
             default:
                 throw new IllegalArgumentException("Unsupported identity provider: " + identityProvider);
         }
-
-        http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/public/**").permitAll()
+        http.authorizeHttpRequests(auth -> auth.requestMatchers("/public/**")
+                .permitAll()
+                .requestMatchers("/actuator/**")
+                .permitAll()
+                .requestMatchers("/admin/**")
+                .hasRole("ADMIN")
                 .anyRequest().authenticated()
-
         );
-
         return http.build();
-    }
-
-    private void configureSaml(HttpSecurity http) throws Exception {
-        http.authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
-                .saml2Login(saml2Login -> saml2Login.relyingPartyRegistrationRepository(
-                        relyingPartyRegistrationRepository(null)
-                ));
     }
 
     private void configureOidc(HttpSecurity http, String provider) throws Exception {
@@ -76,10 +63,25 @@ public class IdentityProviderConfig {
                 .clientId(env.getProperty("identity." + provider + ".client-id"))
                 .clientSecret(env.getProperty("identity." + provider + ".client-secret"))
                 .issuerUri(env.getProperty("identity." + provider + ".issuer-uri"))
+                .authorizationUri(env.getProperty("identity." + provider + ".authorization-uri"))
+                .tokenUri(env.getProperty("identity." + provider + ".token-uri"))
+                .userInfoUri(env.getProperty("identity." + provider + ".userinfo-uri"))
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .redirectUri("{baseUrl}/login/oauth2/code/{registrationId}")
                 .build();
         ClientRegistrationRepository repository = new InMemoryClientRegistrationRepository(clientRegistration);
         http.oauth2Login().clientRegistrationRepository(repository);
+    }
+
+    private void configureSaml(HttpSecurity http) throws Exception {
+        http.saml2Login(saml2Login -> saml2Login.relyingPartyRegistrationRepository(relyingPartyRegistrationRepository));
+    }
+
+    private RelyingPartyRegistrationRepository createRelyingPartyRegistrationRepository() {
+        return new InMemoryRelyingPartyRegistrationRepository(
+                RelyingPartyRegistration.withRegistrationId("saml").assertingPartyDetails(party ->
+                        party.entityId(env.getProperty("identity.saml.metadata-url"))
+                                .singleSignOnServiceLocation(env.getProperty("identity.saml.sso-url"))
+                ).build());
     }
 }

@@ -1,6 +1,12 @@
 package com.binaries.clutch.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity//(table="car_specs")
 public class CarSpecification {
+
+    @Id
     private String id;
     private String label;
     private String model;
@@ -70,6 +76,4 @@ public class CarSpecification {
     public void setStatus(String status) {
         this.status = status;
     }
-
-
 }

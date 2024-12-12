@@ -1,6 +1,7 @@
 package com.binaries.clutch.controllers;
 
 import com.binaries.clutch.model.CarSpecification;
+import com.binaries.clutch.model.Report;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,8 +29,19 @@ public class ApprovalController {
         return ResponseEntity.ok("Specification approved");
     }
 
+    @GetMapping("/reports")
+    @PreAuthorize("hasRole('OPERATIONS')")
+    public ResponseEntity<List<Report>> generateReports() {
+        // Logic for generating reports
+        return ResponseEntity.ok(fetchReports());
+    }
+
     private List<CarSpecification> fetchSpecifications(){
         return List.of(new CarSpecification());
+    }
+
+    private List<Report> fetchReports(){
+        return List.of(new Report(), new Report(), new Report());
     }
 }
 
